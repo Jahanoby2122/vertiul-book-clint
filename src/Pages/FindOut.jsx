@@ -43,7 +43,7 @@ const FindOut = () => {
             Find the answers <br /> to your questions.
           </h3>
           <p className="text-gray-600 mb-8 max-w-md text-base leading-relaxed">
-            আমরা প্রায়শই জিজ্ঞাসিত প্রশ্নগুলোর উত্তর এখানে দিয়েছি যাতে আপনি সহজে তথ্য পেতে পারেন।
+            Here are some of the most common questions about our virtual book platform, designed to help you get started and make the most of your reading experience.
           </p>
           <button className="bg-orange-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-orange-600 transition duration-300 w-fit">
             Contact Support
@@ -52,11 +52,26 @@ const FindOut = () => {
 
         {/* Right section - FAQs */}
         <div className="space-y-6">
-          <FAQItem question="What are my options?" answer="আপনার সামনে বিভিন্ন প্ল্যান রয়েছে যা আপনার প্রয়োজন অনুযায়ী নির্বাচন করতে পারবেন।" />
-          <FAQItem question="Can I switch to a different plan?" answer="হ্যাঁ, আপনি যেকোনো সময় প্ল্যান পরিবর্তন করতে পারবেন।" />
-          <FAQItem question="Do you offer non-disclosure signature?" answer="আমরা আপনার গোপনীয়তা রক্ষা করি এবং এনডিএ স্বাক্ষর প্রদান করি।" />
-          <FAQItem question="Do you issue refunds?" answer="নির্দিষ্ট শর্তে রিফান্ড প্রদান করা হয়। বিস্তারিত জানতে আমাদের নীতিমালা পড়ুন।" />
-          <FAQItem question="Are there any long term contracts?" answer="না, আমাদের সেবাগুলো সাবস্ক্রিপশন ভিত্তিক এবং আপনি যেকোনো সময় বাতিল করতে পারেন।" />
+          <FAQItem
+            question="How can I read a virtual book?"
+            answer="Simply log in to your account and access any available book from your library. You can read directly from your browser on any device."
+          />
+          <FAQItem
+            question="Can I download the books?"
+            answer="For copyright protection, downloads are restricted. However, you can read all books online anytime from your account."
+          />
+          <FAQItem
+            question="Are the books free to read?"
+            answer="We offer a collection of both free and premium books. Some require a subscription or a one-time purchase to access."
+          />
+          <FAQItem
+            question="Is offline reading available?"
+            answer="Currently, offline reading is not supported. We are working on this feature for a future update."
+          />
+          <FAQItem
+            question="Can I publish my own books on this platform?"
+            answer="Yes! As an author, you can register, upload your manuscripts, and share or sell your books to a global audience."
+          />
         </div>
       </div>
 

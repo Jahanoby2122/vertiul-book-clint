@@ -35,6 +35,7 @@ const Navbar = () => {
     <li><NavLink to={'/addbook'} className={({isActive})=>isActive?'text-[#1E75CC] text-xl ':'text-xl'}><IoMdAddCircle />Add Book </NavLink></li>
     <li><NavLink to={'/mybook'} className={({isActive})=>isActive?'text-[#1E75CC] text-xl ':'text-xl'}><ImBook /> My Book </NavLink></li>
     <li><NavLink to={'/profile'} className={({isActive})=>isActive?'text-[#1E75CC] text-xl ':'text-xl'}> <FaRegUserCircle /> Profile  </NavLink></li>
+    <li><NavLink to={'/about'} className={({isActive})=>isActive?'text-[#1E75CC] text-xl ':'text-xl'}> <FaRegUserCircle /> About  </NavLink></li>
    
     
     </>

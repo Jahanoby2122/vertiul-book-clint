@@ -1,17 +1,27 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import { Star } from 'lucide-react';
 import axios from 'axios';
+import { AuthContext } from '../Provider/AuthProvider';
+  import {  toast } from 'react-toastify';
 
 const BookShelfCard = ({ book }) => {
-  const { book_category, total_page, book_author, cover_photo, booktitle, upvote,_id, } = book;
+  const {user}=use(AuthContext)
+  const { book_category, total_page, book_author, cover_photo, booktitle, upvote,_id, user_email} = book;
 
   const [vote,setVote]=useState(upvote)
 
 
   const handleVote = ()=>{
-    axios.patch(`http://localhost:5000/books/${_id}/upvote`)
+    axios.patch(`https://vertiul-books.vercel.app/books/${_id}/upvote`)
       .then(res=>{
         // console.log(res.data)
+        if(user_email==user.email){
+        toast.error("You cannot vote for your own book.");
+
+          return
+
+          
+        }
         
         if(res.data.modifiedCount){
           setVote(prev => prev+1)

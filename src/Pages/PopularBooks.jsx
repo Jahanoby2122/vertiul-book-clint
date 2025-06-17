@@ -5,7 +5,7 @@ import PopularBooksCard from './PopularBooksCard';
 
 
 
-const fetchData = fetch('http://localhost:5000/books').then(res=> res.json())
+const fetchData = fetch('https://vertiul-books.vercel.app/books/').then(res=> res.json())
 
 const PopularBooks = () => {
     const displayBooks = use(fetchData)
@@ -15,8 +15,10 @@ const PopularBooks = () => {
     // console.log(books)
    const [showAll, setShowAll] = useState(false);
 
-    const books = showAll? displayBooks: displayBooks.slice(0,8)
-    // const shortBooks = books.sort((a,b)=> a.upvote - b.upvote).slice(0,4)
+   
+    const shortBooks = displayBooks.sort((a, b) => b.upvote - a.upvote)
+     const books = showAll? shortBooks: shortBooks.slice(0,8)
+
     // console.log(shortBooks)
 
 

@@ -14,6 +14,8 @@ import PrivateRoute from "../Provider/PrivateRoute";
 import UpdateBook from "../Pages/UpdateBook";
 import Review from "../Pages/Review";
 import ErrorPages from "../Pages/ErrorPages";
+import UpdateReview from "../components/UpdateReview";
+import About from "../components/About";
 
 export const router = createBrowserRouter([
   {
@@ -32,12 +34,12 @@ export const router = createBrowserRouter([
       {
         path: "/bookshelf",
         element: (
-          <PrivateRoute>
+        
             
             <BookShelf></BookShelf>
-          </PrivateRoute>
+        
         ),
-        loader:()=> fetch('http://localhost:5000/books')
+        loader:()=> fetch('https://vertiul-books.vercel.app/books/')
       },
       {
         path: "/addbook",
@@ -55,7 +57,7 @@ export const router = createBrowserRouter([
             <MyBook></MyBook>{" "}
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:5000/books"),
+        loader: () => fetch("https://vertiul-books.vercel.app/books/"),
       },
       {
         path: "/profile",
@@ -88,20 +90,29 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/books/${params.id}`),
+          fetch(`https://vertiul-books.vercel.app/books/${params.id}`),
       },
       {
         path: "updatebook/:id",
         element: <UpdateBook></UpdateBook>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/books/${params.id}`),
+          fetch(`https://vertiul-books.vercel.app/books/${params.id}`),
       },
   
       {
         path:'/review/:id',
         element:<Review></Review>,
-        loader:({params})=> fetch(`http://localhost:5000/review/${params.id}`)
+        loader:({params})=> fetch(`https://vertiul-books.vercel.app/review/${params.id}`)
      
+      },
+      {
+        path:'/about',
+        element:<About></About>
+
+      },
+      {
+        path:'/updatereview/:id',
+        element:<UpdateReview></UpdateReview>
       }
     ],
   },

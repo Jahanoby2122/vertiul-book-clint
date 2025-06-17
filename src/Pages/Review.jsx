@@ -1,14 +1,17 @@
 import axios from "axios";
 import React, { use, useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import ReviewCard from "./ReviewCard";
+import { toast } from "react-toastify";
 
-const fetchData = fetch('http://localhost:5000/review').then(res=> res.json())
+
+const fetchData = fetch('https://vertiul-books.vercel.app/review').then(res=> res.json())
 
 
 
 const Review = ({_id}) => {
+
   const data = use(fetchData)
   console.log('aita then diya load kora ',data)
 const bookReviews = data.filter(item=> item.book_id===_id)
@@ -20,6 +23,8 @@ console.log('book review',bookReviews)
   const loadData = useLoaderData()
   console.log('my load data', loadData)
 
+  const isAlreadyReviewed = bookReviews.find(book=> book.book_id==_id&& book.email==user.email)
+  console.log({isAlreadyReviewed})
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
@@ -42,13 +47,18 @@ console.log('book review',bookReviews)
 
     // fetch data
 
-    axios.post('http://localhost:5000/review',newReviewData)
+    axios.post('https://vertiul-books.vercel.app/review',newReviewData)
       .then(res=> {
         console.log(res)
+        
+       
+        toast.success('succesfully added')
+        window.location.reload()
       })
       .catch(error=>{
         console.log(error)
       })
+
 
 
 
@@ -59,11 +69,8 @@ console.log('book review',bookReviews)
 
 
 
-  // handleUpdate
-  const handleUpdate = ()=>{
-    
-  }
 
+  
 
 
 
@@ -81,24 +88,11 @@ console.log('book review',bookReviews)
       bookReviews.map(review=> <ReviewCard key={review._id} review={review}></ReviewCard>)
 
      }
-     <div>
-      {/* Open the modal using document.getElementById('ID').showModal() method */}
-<button className="btn" onClick={()=>document.getElementById('my_modal_1').showModal()}>open modal</button>
-<dialog id="my_modal_1" className="modal">
-  <div className="modal-box">
-    <h3 className="font-bold text-lg">Hello!</h3>
-    <p className="py-4">Press ESC key or click the button below to close</p>
-    <div className="modal-action">
-      <form method="dialog">
-        {/* if there is a button in form, it will close the modal */}
-        <button className="btn">Close</button>
-      </form>
-    </div>
-  </div>
-</dialog>
-     </div>
-     
-     <button className="btn">delete</button>
+
+
+     {/* <button onClick={()=>document.getElementById('my_modal').showModal()} className="btn">update</button> */}
+
+     {/* <button className="btn">delete</button> */}
       </div>
       <div className="bg-white shadow-2xl rounded-2xl p-8 max-w-lg w-full">
         <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">Leave a Review</h2>
@@ -151,8 +145,9 @@ console.log('book review',bookReviews)
 
           <div>
             <button
+            disabled={isAlreadyReviewed}
               type="submit"
-              className="w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-xl transition-all duration-300"
+              className={`w-full bg-indigo-500 hover:bg-indigo-600 text-white font-semibold py-2 rounded-xl transition-all duration-300 ${isAlreadyReviewed?'pointer-events-none opacity-50': ''} `}
             >
               Submit Review
             </button>

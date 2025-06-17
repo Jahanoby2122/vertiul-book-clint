@@ -1,10 +1,15 @@
-import React from "react";
+import React, { use } from "react";
 import { Link } from "react-router";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 
+import { AuthContext } from "../Provider/AuthProvider";
+// import UpdateBookModal from "../components/UpdateBookModal";
+
 const MyBookCard = ({ book,setBook,myBook }) => {
   const { booktitle, cover_photo, author, genre, _id,book_author } = book;
+  const {user}=use(AuthContext)
+
 
  const handleDelete = (_id) => {
   Swal.fire({
@@ -18,7 +23,7 @@ const MyBookCard = ({ book,setBook,myBook }) => {
   }).then((result) => {
     if (result.isConfirmed) {
       // Only delete if user confirms
-      fetch(`http://localhost:5000/books/${_id}`, {
+      fetch(`https://vertiul-books.vercel.app/books/${_id}`, {
         method: "DELETE",
       })
         .then((res) => res.json())
@@ -53,10 +58,14 @@ const MyBookCard = ({ book,setBook,myBook }) => {
     <button  className='btn '>UpdateBook</button>
   </Link>
 
+    {/* <button onClick={()=>document.getElementById('my_modal_update').showModal()} className='btn '>UpdateBook</button> */}
+
+
    <button className="btn px-8" onClick={()=>handleDelete(_id)}>Delete</button>
 
     
   </div>
+  {/* <UpdateBookModal /> */}
 </div>
   );
 };

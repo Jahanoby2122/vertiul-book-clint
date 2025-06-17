@@ -5,24 +5,25 @@ import Loading from '../Pages/Loading';
 import FindOut from '../Pages/FindOut';
 import FeaturedCategory from '../Pages/FeaturedCategory';
 import SplashCursor from '../components/SplashCursor';
+
 // import GradientText from './GradientText';
 
 
 
 const Home = () => {
     return (
-        <div>
+        <div className='space-y-20'>
                  <SplashCursor />
             <Suspense fallback={<Loading></Loading>}>
                 <Banner></Banner>
-                <br />
+                
                 <PopularBooks></PopularBooks>
-                <br />
-               <br />
+               
                 <FeaturedCategory></FeaturedCategory>
-                <br />
+              
                 {/* <GradientText></GradientText> */}
                  <FindOut></FindOut>
+                
                  
                 
             </Suspense>

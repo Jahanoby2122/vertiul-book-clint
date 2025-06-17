@@ -16,7 +16,7 @@ const Profile = () => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:5000/books')
+    fetch('https://vertiul-books.vercel.app/books/')
       .then(res => res.json())
       .then(data => setBooks(data))
       .catch(error => console.error('Error fetching books:', error));

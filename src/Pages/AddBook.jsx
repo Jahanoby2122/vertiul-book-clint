@@ -13,9 +13,10 @@ const AddBook = () => {
     const formData = new FormData(form);
     const newBookData = Object.fromEntries(formData.entries())
     console.log(newBookData)
+    newBookData.upvote= parseInt(newBookData.upvote)
 
   //  data fetch
-  axios.post(`http://localhost:5000/books`,newBookData)
+  axios.post(`https://vertiul-books.vercel.app/books/`,newBookData)
     .then(res=>{
       console.log(res)
       if(res.data.insertedId){
