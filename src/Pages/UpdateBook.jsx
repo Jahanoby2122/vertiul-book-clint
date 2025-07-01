@@ -15,6 +15,8 @@ const UpdateBook = () => {
     const form = e.target;
     const formData = new FormData(form);
     const updateData = Object.fromEntries(formData.entries());
+     updateData.upvote= parseInt(updateData.upvote)
+    
 
     // const _id = "12345"; // এখানে সঠিকভাবে আইডি বসাও
 

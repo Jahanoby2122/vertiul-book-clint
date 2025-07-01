@@ -1,20 +1,18 @@
-import React, { use, useContext, useState } from "react";
-import { useLoaderData, useParams } from "react-router"; // 'react-router-dom' থেকে useLoaderData ইম্পোর্ট করুন
+import React, { useContext, useState } from "react";
+import { useLoaderData } from "react-router"; 
 import {
   FaBookOpen,
   FaPenNib,
   FaThList,
   FaInfoCircle,
   FaStar,
-  FaUser,
-} from "react-icons/fa"; // React Icons ব্যবহার করতে পারেন
+} from "react-icons/fa";
 import Review from "./Review";
 import { AuthContext } from "../Provider/AuthProvider";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const BookDetailsPage = () => {
-  // useLoaderData থেকে আপনার বইয়ের বিবরণ পান
   const { user } = useContext(AuthContext);
   const booksDetails = useLoaderData();
   const {
@@ -24,50 +22,47 @@ const BookDetailsPage = () => {
     book_author,
     total_page,
     book_category,
-    reading_status,
+    reading_status: initialReadingStatus,
     book_overview,
     upvote,
     user_name,
-    user_email
+    user_email,
   } = booksDetails;
 
-const updateReadingStatus = (e) => {
-  e.preventDefault(); 
+  // Reading status local state for instant UI update
+  const [readingStatus, setReadingStatus] = useState(initialReadingStatus);
 
-  const form = e.target;
-  const formData = new FormData(form);
-  const updateData = Object.fromEntries(formData.entries());
-  console.log(updateData)
+  const updateReadingStatus = (e) => {
+    e.preventDefault();
 
-  if(user_email==user.email){
-    toast.success('add succesfully')
+    if (user_email !== user.email) {
+      toast.error("This is not your book");
+      return;
+    }
 
-  }
-  else{
-    toast.error('its not your book')
-    return
-  }
+    const newStatus = e.target.reading_status.value;
 
-  axios.patch(`https://vertiul-books.vercel.app/books/${_id}/reading`, updateData)
-    .then((res) => {
-      console.log("আপডেট সফল:", res.data);
-        window.location.reload()
-    })
-    .catch((error) => {
-      console.error("আপডেট ব্যর্থ:", error);
-    });
-};
-
+    axios
+      .patch(`https://vertiul-books.vercel.app/books/${_id}/reading`, {
+        reading_status: newStatus,
+      })
+      .then((res) => {
+        toast.success("Reading status updated successfully");
+        setReadingStatus(newStatus); // instant UI update without reload
+      })
+      .catch((error) => {
+        console.error("Update failed:", error);
+        toast.error("Failed to update reading status");
+      });
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 font-sans">
-  
       <nav className="bg-white shadow-md py-4 px-6 flex items-center justify-between z-10 relative">
         <div className="flex items-center space-x-4">
           <a href="#" className="font-bold text-lg text-blue-600">
             Book Hub
-          </a>{" "}
-      
+          </a>
           <div className="hidden md:flex space-x-6">
             <a href="/" className="text-gray-700 hover:text-blue-600">
               Home
@@ -84,7 +79,6 @@ const updateReadingStatus = (e) => {
           </div>
         </div>
         <div className="flex items-center space-x-4">
-    
           <button className="text-gray-600 hover:text-gray-800">
             <svg
               className="w-6 h-6"
@@ -132,7 +126,6 @@ const updateReadingStatus = (e) => {
 
       <div className="container mx-auto p-4 md:p-8 lg:p-12">
         <div className="bg-white rounded-lg shadow-xl overflow-hidden relative">
-
           <div
             className="relative h-96 bg-cover bg-center rounded-t-lg flex items-end"
             style={{
@@ -145,15 +138,14 @@ const updateReadingStatus = (e) => {
             <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent"></div>
             <div className="absolute bottom-0 left-0 p-8 text-white">
               <div className="flex space-x-2 mb-2">
-      
                 {book_category && (
                   <span className="bg-blue-600 text-white text-xs font-semibold px-3 py-1 rounded-full">
                     {book_category}
                   </span>
                 )}
-                {reading_status && (
+                {readingStatus && (
                   <span className="bg-gray-700 text-white text-xs font-semibold px-3 py-1 rounded-full">
-                    {reading_status}
+                    {readingStatus}
                   </span>
                 )}
               </div>
@@ -167,11 +159,10 @@ const updateReadingStatus = (e) => {
               )}
             </div>
             <div className="absolute top-4 right-4 flex space-x-2">
-              {/* Upvote বাটন */}
               <button className="bg-white p-2 rounded-full shadow-md text-red-500 hover:bg-gray-100 flex items-center">
-                <FaStar className="mr-1" /> {upvote} 
+                <FaStar className="mr-1" /> {upvote}
               </button>
-          
+
               <button className="bg-white p-2 rounded-full shadow-md text-gray-700 hover:bg-gray-100">
                 <svg
                   className="w-6 h-6"
@@ -192,7 +183,7 @@ const updateReadingStatus = (e) => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 p-8">
-         
+            {/* Left content */}
             <div className="lg:col-span-2">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Book Overview
@@ -226,14 +217,12 @@ const updateReadingStatus = (e) => {
                 <div className="flex items-center space-x-3">
                   <FaInfoCircle className="text-blue-500 text-xl" />
                   <div className="grid grid-cols-2 gap-4 items-center">
-                    <span className="font-semibold text-sm">
-                      Reading Status
-                    </span>
-                    <p className="text-md">{reading_status}</p>
+                    <span className="font-semibold text-sm">Reading Status</span>
+                    <p className="text-md">{readingStatus}</p>
                     <form onSubmit={updateReadingStatus}>
                       <div>
                         <select
-                          defaultValue=""
+                          defaultValue={readingStatus || ""}
                           name="reading_status"
                           required
                           className="select w-full select-primary"
@@ -246,19 +235,18 @@ const updateReadingStatus = (e) => {
                           <option value="Read">Read</option>
                         </select>
                       </div>
-                      <input className="btn" type="submit" value="Submit" />
+                      <input className="btn mt-2" type="submit" value="Submit" />
                     </form>
                   </div>
                 </div>
               </div>
-              {/* যদি আপনার Review কম্পোনেন্ট থাকে, তবে এখানে এটি রেন্ডার করুন */}
+
               <div className="mt-20">
-                <Review _id={_id}></Review>
+                <Review _id={_id} />
               </div>
-              {/* <Review bookId={booksDetails._id} /> */}
             </div>
 
-            {/* বইয়ের অ্যাকশন বা স্ট্যাটাস আপডেট সেকশন (রেজিস্ট্রেশন ফর্মের মতো) */}
+            {/* Right sidebar */}
             <div className="lg:col-span-1 bg-gray-50 p-6 rounded-lg shadow-inner">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">
                 Quick Actions
@@ -267,81 +255,79 @@ const updateReadingStatus = (e) => {
                 Update your reading progress or status
               </p>
 
-              <div className="space-y-4">
+              <div className="space-y-4 mb-6">
                 <input
-                  value={user?.displayName}
+                  value={user?.displayName || ""}
                   type="text"
-                  placeholder="Secondary"
-                  className="input "
+                  readOnly
+                  placeholder="User Name"
+                  className="input w-full"
                 />
-                <br />
                 <input
-                  value={user?.email}
+                  value={user?.email || ""}
                   type="text"
-                  placeholder="Secondary"
-                  className="input "
+                  readOnly
+                  placeholder="User Email"
+                  className="input w-full"
                 />
               </div>
 
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold text-gray-800 mb-3">
-                  Book Highlights
-                </h3>
-                <ul className="space-y-2 text-gray-600">
-                  <li className="flex items-center">
-                    <svg
-                      className="w-5 h-5 text-green-500 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    Access detailed book information
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      className="w-5 h-5 text-green-500 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    Manage your reading list
-                  </li>
-                  <li className="flex items-center">
-                    <svg
-                      className="w-5 h-5 text-green-500 mr-2"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      ></path>
-                    </svg>
-                    Discover related books
-                  </li>
-                  {/* আপনি আপনার বইয়ের ডেটা থেকে অন্যান্য হাইলাইট যোগ করতে পারেন */}
-                </ul>
-              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-3">
+                Book Highlights
+              </h3>
+              <ul className="space-y-2 text-gray-600">
+                <li className="flex items-center">
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                  Access detailed book information
+                </li>
+                <li className="flex items-center">
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                  Manage your reading list
+                </li>
+                <li className="flex items-center">
+                  <svg
+                    className="w-5 h-5 text-green-500 mr-2"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                  Discover related books
+                </li>
+              </ul>
             </div>
           </div>
         </div>

@@ -29,6 +29,8 @@ const ReviewCard = ({ review }) => {
                 icon: "success",
               });
             }
+
+            window.location.reload()
           })
           .then((error) => {
             console.log(error);
@@ -69,3 +71,9 @@ const ReviewCard = ({ review }) => {
 };
 
 export default ReviewCard;
+
+
+
+
+
+

@@ -4,7 +4,7 @@ import PopularBooks from '../Pages/PopularBooks';
 import Loading from '../Pages/Loading';
 import FindOut from '../Pages/FindOut';
 import FeaturedCategory from '../Pages/FeaturedCategory';
-import SplashCursor from '../components/SplashCursor';
+
 
 // import GradientText from './GradientText';
 
@@ -13,7 +13,7 @@ import SplashCursor from '../components/SplashCursor';
 const Home = () => {
     return (
         <div className='space-y-20'>
-                 <SplashCursor />
+             
             <Suspense fallback={<Loading></Loading>}>
                 <Banner></Banner>
                 

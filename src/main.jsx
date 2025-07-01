@@ -16,7 +16,9 @@ import AuthProvider from './Provider/AuthProvider';
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+     <div className='min-h-screen'>
+       <RouterProvider router={router} />
+     </div>
     </AuthProvider>
     <ToastContainer />
   </StrictMode>,

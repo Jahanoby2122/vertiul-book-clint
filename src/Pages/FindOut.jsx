@@ -33,7 +33,7 @@ const FAQItem = ({ question, answer }) => {
 
 const FindOut = () => {
   return (
-    <section className="bg-white py-20 px-6 sm:px-10 lg:px-16 rounded-3xl shadow-xl overflow-hidden relative">
+    <section className=" py-20 px-6 sm:px-10 lg:px-16 rounded-3xl shadow-xl overflow-hidden relative">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 relative z-10">
         
         {/* Left section */}

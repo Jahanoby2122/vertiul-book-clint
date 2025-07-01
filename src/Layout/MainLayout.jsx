@@ -8,7 +8,7 @@ import Footer from '../components/Footer';
 
 const MainLayout = () => {
     return (
-        <div>
+        <div className='bg-[#f2f4f8] min-h-screen'>
          
             <Navbar></Navbar>
             {import.meta.env.VITE_name}

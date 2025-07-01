@@ -1,94 +1,124 @@
 import React from "react";
-import Slider from "react-slick";
-import { ChevronLeft, ChevronRight } from "lucide-react"; // for arrow icons
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
-// Sample books
-const books = [
-  { title: "Book One", image: "https://i.ibb.co/KjyWPZhQ/attachment-149069876.jpg" },
-  { title: "Book Two", image: "https://i.ibb.co/JWqDMWLB/optimized-large-thumb-children-stories-book-cover-541-1.jpg" },
-  { title: "Book Three", image: "https://i.ibb.co/cSv6FpLB/39f51c5e3e4e1c249ddeea8ae8e9ed73-romance-novel-watercolor-book-cover-design.jpg" },
-  { title: "Book Four", image: "https://i.ibb.co/FLYj9mJ0/4d520fb3-bab8-4d4a-a209-17731bb9da86.jpg" },
-  { title: "Book Five", image: "https://i.ibb.co/j9zWQWcg/1003w-53-S3-Izr-Nxv-Y.webp" },
-  { title: "Book Six", image: "https://i.ibb.co/R44GYdHS/d33af487-8d7b-45af-8a95-2fdbdadbfab8.jpg" },
-  { title: "Book Seven", image: "https://i.ibb.co/67jjHqNy/science-cover-book-design-with-microscope-vector-31136468.jpg" },
-];
-
-// Custom arrow components
-const PrevArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute top-1/2 left-0 z-10 transform -translate-y-1/2 bg-white shadow p-2 rounded-full hover:bg-gray-100"
-      onClick={onClick}
-    >
-      <ChevronLeft size={24} />
-    </button>
-  );
-};
-
-const NextArrow = (props) => {
-  const { onClick } = props;
-  return (
-    <button
-      className="absolute top-1/2 right-0 z-10 transform -translate-y-1/2 bg-white shadow p-2 rounded-full hover:bg-gray-100"
-      onClick={onClick}
-    >
-      <ChevronRight size={24} />
-    </button>
-  );
-};
+import { Link } from "react-router";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import ima1 from '../assets/c1.png';
+import ima2 from '../assets/c2.png';
+import ima3 from '../assets/c3.png';
+import ima4 from '../assets/c4.png';
 
 const Banner = () => {
-  const settings = {
-    dots: false,
-    infinite: true,
-    speed: 1500, // slow transition
-    autoplay: true,
-    autoplaySpeed: 900,
-    slidesToShow: 5,
-    slidesToScroll: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
-    responsive: [
-      { breakpoint: 1024, settings: { slidesToShow: 3 } },
-      { breakpoint: 768, settings: { slidesToShow: 2 } },
-      { breakpoint: 480, settings: { slidesToShow: 1 } },
-    ],
-  };
+  // Custom navigation buttons
+  const navigationPrevRef = React.useRef(null);
+  const navigationNextRef = React.useRef(null);
+
+  // Book slides data
+  const bookSlides = [
+    {
+      image: ima1,
+      title: "Explore Our Virtual Library",
+      description: "Access thousands of books from the comfort of your home. Your next favorite read is just a click away!",
+      button1: "Browse Collection",
+      button2: "Learn More"
+    },
+    {
+      image: ima2,
+      title: "New Releases This Week",
+      description: "Discover the latest additions to our collection from top authors around the world.",
+      button1: "View New Books",
+      button2: "See All"
+    },
+    {
+      image: ima3,
+      title: "Classic Literature Collection",
+      description: "Timeless masterpieces that have shaped literature for generations. Now available in digital format.",
+      button1: "Explore Classics",
+      button2: "View All"
+    },
+    {
+      image: ima4,
+      title: "Personalized Recommendations",
+      description: "Get book suggestions tailored to your reading preferences and interests.",
+      button1: "Get Started",
+      button2: "How It Works"
+    }
+  ];
 
   return (
-   <div className="mt-30">
-     <div className="max-w-7xl mx-auto py-10 px-4 relative">
-      <Slider {...settings}>
-        {books.map((book, index) => (
-          <div key={index} className="px-2">
-            <div className="relative h-64 bg-white shadow-md rounded-lg overflow-hidden">
-              {/* Title on top */}
-              <div className="absolute top-2 left-2  bg-opacity-60 text-white px-2 py-1 rounded text-sm font-medium z-10">
-                {book.title}
-              </div>
-
-              {/* Image */}
-              <img
-                src={book.image}
-                alt={book.title}
-                className="w-full h-full object-cover"
-              />
-
-              {/* Button centered bottom */}
-              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2">
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm">
-                  View Books
-                </button>
+    <div className="relative">
+      <Swiper
+        spaceBetween={30}
+        centeredSlides={true}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+        }}
+        pagination={{
+          clickable: true,
+        }}
+        navigation={{
+          prevEl: navigationPrevRef.current,
+          nextEl: navigationNextRef.current,
+        }}
+        modules={[Autoplay, Pagination, Navigation]}
+        className="mySwiper"
+        onBeforeInit={(swiper) => {
+          swiper.params.navigation.prevEl = navigationPrevRef.current;
+          swiper.params.navigation.nextEl = navigationNextRef.current;
+        }}
+      >
+        {bookSlides.map((slide, index) => (
+          <SwiperSlide key={index}>
+            <div
+              className="hero min-h-[60vh] max-w-7xl mx-auto mt-10 md:mt-20 lg:mt-40 "
+              style={{
+                backgroundImage: `url(${slide.image})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            >
+              <div className="hero-overlay bg-opacity-70"></div>
+              <div className="hero-content text-center text-neutral-content">
+                <div className="max-w-md">
+                  <h1 className="mb-5 text-3xl md:text-5xl font-bold">
+                    {slide.title}
+                  </h1>
+                  <p className="mb-5 text-lg md:text-xl">
+                    {slide.description}
+                  </p>
+                  <div className="flex gap-4 justify-center">
+                    <Link to="/collection" className="btn btn-primary">
+                      {slide.button1}
+                    </Link>
+                    <Link to="/about" className="btn btn-outline btn-secondary">
+                      {slide.button2}
+                    </Link>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          </SwiperSlide>
         ))}
-      </Slider>
+      </Swiper>
+
+      {/* Custom Navigation Arrows */}
+      {/* <button
+        ref={navigationPrevRef}
+        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full transition-all"
+      >
+        <ChevronLeft size={32} />
+      </button> */}
+      {/* <button
+        ref={navigationNextRef}
+        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full transition-all"
+      >
+        <ChevronRight size={32} />
+      </button> */}
     </div>
-   </div>
   );
 };
 

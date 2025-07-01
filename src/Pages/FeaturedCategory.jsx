@@ -18,7 +18,7 @@ const filterBook3 = books.filter(book=> book.book_category=='Fantasy').slice(0,6
             <h1 className=' text-center font-bold text-3xl'>featured categories </h1>
             <h1 className=' w-8/12 mx-auto font-bold'>non fiction </h1>
             <br />
-            <div className='grid grid-cols-1 md:grid-cols-6 gap-8 w-8/12 mx-auto'>
+            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 px-5 max-w-7xl mx-auto'>
                 {
                     filterBook.map(book=> <FeturedCategoryCard key={book._id} book={book}></FeturedCategoryCard>)
                 }
@@ -26,21 +26,13 @@ const filterBook3 = books.filter(book=> book.book_category=='Fantasy').slice(0,6
             <br />
              <h1 className=' w-8/12 mx-auto font-bold'> fiction </h1>
              <br />
-            <div className='grid grid-cols-1 md:grid-cols-6 gap-8 w-8/12 mx-auto'>
+            <div className='grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-8 px-5 max-w-7xl mx-auto'>
                 {
                     filterBook2.map(book=> <FeturedCategoryCard key={book._id} book={book}></FeturedCategoryCard>)
                 }
             </div>
             
-            <br />
-             <h1 className=' w-8/12 mx-auto font-bold'> Fantasy </h1>
-             <br />
-            <div className='grid grid-cols-1 md:grid-cols-6 gap-8 w-8/12 mx-auto'>
-                {
-                    filterBook3.map(book=> <FeturedCategoryCard key={book._id} book={book}></FeturedCategoryCard>)
-                }
-            </div>
-            
+         
         </div>
     );
 };

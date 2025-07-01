@@ -43,7 +43,7 @@ const MyBookCard = ({ book,setBook,myBook }) => {
  <div className=" bg-gradient-to-br  shadow-xl overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
   {/* বড় কভার ফটো */}
   <img
-    className="w-full h-[200px] px-12 pt-12 object-cover "
+    className="w-full md:h-[200px]  h-[260px] px-12 pt-12 object-cover "
     src={cover_photo}
     alt={booktitle}
   />

@@ -1,112 +1,101 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLoaderData } from "react-router";
 import BookShelfCard from "./BookShelfCard";
-import { FaSearch } from "react-icons/fa";
+import img1 from '../assets/shelfBanner.jpg'
 
 const BookShelf = () => {
   const bookShelf2 = useLoaderData();
-// filter
-  const [filterbook, setFilterBook]=useState('')
-
-  // console.log(filterbook)
-
-
-// search
   const [bookShelf, setBookShelf] = useState(bookShelf2);
   const [searchText, setSearchText] = useState("");
+  const [filterbook, setFilterBook] = useState("");
 
-  const handleSearch = (e, text) => {
-    e.preventDefault();
-    if (text == "") return setBookShelf(bookShelf2);
-    const searchBooks = bookShelf.filter((book) =>
-      book.booktitle.toLowerCase().split(" ").includes(text.toLowerCase())
-    );
+  useEffect(() => {
+    let filtered = bookShelf2;
 
-    console.log(searchBooks);
-    // console.log(text)
-    setBookShelf(searchBooks);
-  };
+    // Filter by reading_status
+    if (filterbook) {
+      filtered = filtered.filter(book =>
+        book.reading_status.toLowerCase() === filterbook.toLowerCase()
+      );
+    }
 
+    // Filter by title search
+    if (searchText) {
+      filtered = filtered.filter(book =>
+        book.booktitle.toLowerCase().includes(searchText.toLowerCase())
+      );
+    }
 
-
-const handleFilter = (e, text) => {
-  e.preventDefault();
-  if (text === "") return setBookShelf(bookShelf2); // যদি কিছু না বাছা হয়, সব বই দেখাও
-
-  const filteredBooks = bookShelf2.filter(book =>
-    book.reading_status.toLowerCase().includes(text.toLowerCase())
-  );
-
-  setBookShelf(filteredBooks);
-};
-
-
-
-
+    setBookShelf(filtered);
+  }, [searchText, filterbook, bookShelf2]);
 
   return (
-    <div>
-      <div className="mt-30 mb-12 w-6/12 grid md:grid-cols-12 gap-8 mx-auto">
-        <div className="col-span-8">
-          <form 
-            onSubmit={(e) => {
-              handleSearch(e, searchText);
-              //  reset
-              setSearchText("");
-            }}
-            className="w-full flex gap-1 space-y-1 shadow dark:text-gray-800"
-          >
-            <label htmlFor="Search" className="hidden">
-              Search
-            </label>
-            <div className="relative ">
-              <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                <button
-                  
-                  title="search"
-                  className="p-1 focus:outline-none focus:ring"
-                >
-                  <svg
-                    fill="currentColor"
-                    viewBox="0 0 512 512"
-                    className="w-4 h-4 dark:text-gray-800"
-                  >
-                    <path d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
-                  </svg>
-                </button>
-              </span>
-              <input
-                onChange={(e) => setSearchText(e.target.value)}
-                value={searchText}
-                type="search"
-                name="Search"
-                placeholder="Search..."
-                className="lg:w-[573px] md:w-[400] w-[200] py-2 pl-10 text-sm rounded-md  focus:outline-none dark:bg-gray-100 dark:text-gray-800 focus:dark:bg-gray-50 focus:dark:border-violet-600"
-              />
-            </div>
-            <button type="submit" className="btn"><FaSearch /></button>
-          </form>
+    <div className="max-w-7xl mx-auto px-4">
+<div className="relative  top-25 bottom-15">
+  <img
+    className="mx-auto rounded-lg shadow-md "
+    src={img1}
+    alt="Bookshelf Illustration"
+  />
+  {/* Text overlay on the image */}
+  <div
+    className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 rounded-lg"
+    style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} // semi-transparent black bg
+  >
+    <h1 className="text-white text-4xl font-bold mb-2">Bookshelf</h1>
+    <p className="text-white hidden md:block text-lg max-w-xl">
+      Here you can store all your books, view your reading list, and find detailed information about each book in one place.
+    </p>
+  </div>
+</div>
+
+
+<br />
+<br />
+
+      {/* Search & Filter */}
+      <div className="mt-20 mb-12 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+        {/* Search Input */}
+        <div className="md:col-span-8 col-span-12">
+          <div className="relative">
+            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+              <svg
+                fill="currentColor"
+                viewBox="0 0 512 512"
+                className="w-4 h-4 text-gray-500"
+              >
+                <path d="M479.6,399.716l-81.084-81.084-62.368-25.767A175.014,175.014,0,0,0,368,192c0-97.047-78.953-176-176-176S16,94.953,16,192,94.953,368,192,368a175.034,175.034,0,0,0,101.619-32.377l25.7,62.2L400.4,478.911a56,56,0,1,0,79.2-79.195ZM48,192c0-79.4,64.6-144,144-144s144,64.6,144,144S271.4,336,192,336,48,271.4,48,192ZM456.971,456.284a24.028,24.028,0,0,1-33.942,0l-76.572-76.572-23.894-57.835L380.4,345.771l76.573,76.572A24.028,24.028,0,0,1,456.971,456.284Z"></path>
+              </svg>
+            </span>
+            <input
+              type="search"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              placeholder="Search..."
+              className="w-full py-2 pl-10 pr-4 text-sm rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400"
+            />
+          </div>
         </div>
-        {/* end div */}
-        <div className="col-span-4">
-         <form onSubmit={(e) => handleFilter(e, filterbook)}>
-           <select
+
+        {/* Filter Dropdown */}
+        <div className="md:col-span-4 col-span-12">
+          <select
             value={filterbook}
-            onChange={e=> setFilterBook(e.target.value)}
-            className="select select-primary"
+            onChange={(e) => setFilterBook(e.target.value)}
+            className="w-full py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400"
           >
-             <option value="" disabled>Choose</option>
-        <option value="Read">Read</option>
-        <option value="Reading">Reading</option>
-        <option value="Want to Read">Want to Read</option>
+            <option value="">Select all</option>
+            <option value="Read">Read</option>
+            <option value="Reading">Reading</option>
+            <option value="Want to Read">Want to Read</option>
           </select>
-          {/* <input className="btn" type="submit" value="sumbit" /> */}
-         </form>
         </div>
       </div>
-      <div className=" w-7/12 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+
+      {/* Book Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4  gap-6">
         {bookShelf.map((book) => (
-          <BookShelfCard key={book._id} book={book}></BookShelfCard>
+          <BookShelfCard key={book._id} book={book} />
         ))}
       </div>
     </div>

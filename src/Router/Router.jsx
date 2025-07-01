@@ -16,6 +16,7 @@ import Review from "../Pages/Review";
 import ErrorPages from "../Pages/ErrorPages";
 import UpdateReview from "../components/UpdateReview";
 import About from "../components/About";
+import Blog from "../components/Blog";
 
 export const router = createBrowserRouter([
   {
@@ -113,6 +114,10 @@ export const router = createBrowserRouter([
       {
         path:'/updatereview/:id',
         element:<UpdateReview></UpdateReview>
+      },
+      {
+        path:'/blog',
+        element:<Blog></Blog>
       }
     ],
   },
