@@ -41,7 +41,7 @@ const Profile = () => {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto py-52 grid grid-cols-1 md:grid-cols-2 gap-6 bg-white rounded-lg shadow">
+    <div className="max-w-5xl mx-auto min-h-screen mt-30 items-center grid grid-cols-1 md:grid-cols-2  gap-6 bg-white rounded-lg shadow">
       
       {/* Left: Profile Section */}
       <div className="flex flex-col items-center text-center border-r md:border-r-gray-200  pr-4">

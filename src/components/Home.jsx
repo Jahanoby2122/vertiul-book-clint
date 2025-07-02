@@ -14,7 +14,7 @@ const Home = () => {
     return (
         <div className='space-y-20'>
              
-            <Suspense fallback={<Loading></Loading>}>
+           
                 <Banner></Banner>
                 
                 <PopularBooks></PopularBooks>
@@ -26,7 +26,7 @@ const Home = () => {
                 
                  
                 
-            </Suspense>
+          
         </div>
     );
 };

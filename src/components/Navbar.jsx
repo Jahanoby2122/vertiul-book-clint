@@ -35,7 +35,7 @@ const Navbar = () => {
   </>;
 
   return (
-    <div className="w-full bg-[#fbfcff] to-white border-b border-[#9128fb] shadow z-50 fixed top-0 left-0">
+    <div className="w-full bg-gradient-to-r from-blue-100 via-white to-purple-100 border-b border-[#9128fb] shadow z-50 fixed top-0 left-0">
       <div className="navbar max-w-7xl mx-auto">
         {/* Navbar Start */}
         <div className="navbar-start">
@@ -66,7 +66,7 @@ const Navbar = () => {
         <div className="navbar-end space-x-2">
           {
             user ? (
-              <button onClick={handleLogout} className='btn'>Logout</button>
+              <button onClick={handleLogout} className='btn btn-primary bg-white shadow-xl text-black'>Logout</button>
             ) : (
               <div className="flex gap-2">
                 <Link className='btn btn-primary bg-white shadow-xl text-black' to={`/auth/signup`}>Signup</Link>

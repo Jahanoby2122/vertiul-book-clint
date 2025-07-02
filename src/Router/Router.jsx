@@ -16,7 +16,7 @@ import Review from "../Pages/Review";
 import ErrorPages from "../Pages/ErrorPages";
 import UpdateReview from "../components/UpdateReview";
 import About from "../components/About";
-import Blog from "../components/Blog";
+import Loading from "../Pages/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +40,8 @@ export const router = createBrowserRouter([
             <BookShelf></BookShelf>
         
         ),
-        loader:()=> fetch('https://vertiul-books.vercel.app/books/')
+        loader:()=> fetch('https://vertiul-books.vercel.app/books/'),
+        hydrateFallbackElement:<Loading></Loading>
       },
       {
         path: "/addbook",
@@ -59,6 +60,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: () => fetch("https://vertiul-books.vercel.app/books/"),
+        hydrateFallbackElement:<Loading></Loading>
       },
       {
         path: "/profile",
@@ -114,10 +116,6 @@ export const router = createBrowserRouter([
       {
         path:'/updatereview/:id',
         element:<UpdateReview></UpdateReview>
-      },
-      {
-        path:'/blog',
-        element:<Blog></Blog>
       }
     ],
   },
