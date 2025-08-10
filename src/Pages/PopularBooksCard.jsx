@@ -6,7 +6,7 @@ const PopularBooksCard = ({ book }) => {
   const navigate = useNavigate();
 
   return (
-    <div className=" bg-white shadow-xl overflow-hidden transform transition duration-300 hover:scale-105  flex flex-col justify-between h-full">
+    <div  className=" bg-white shadow-xl overflow-hidden transform transition duration-300 hover:scale-105  flex flex-col justify-between h-full">
       {/* বড় কভার ফটো */}
       <img
         className="w-full px-6  mx-auto md:h-[200px] h-[320px] md:px-12 pt-12 object-cover"

@@ -9,6 +9,10 @@ import { RouterProvider } from "react-router";
 import { router } from "./Router/Router";
 import AuthProvider from "./Provider/AuthProvider";
 import Loading from "./Pages/Loading";
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
+// ..
+AOS.init();
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>

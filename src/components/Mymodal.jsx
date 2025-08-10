@@ -2,7 +2,7 @@ import React, { use } from 'react';
 import { AuthContext } from '../Provider/AuthProvider';
 import { toast } from 'react-toastify';
 
-const Mymodal = ({_id}) => {
+const Mymodal = ({_id,setRefetch,refetch}) => {
 
   const {user}=use(AuthContext)
 // handleUpdate
@@ -25,7 +25,8 @@ const Mymodal = ({_id}) => {
       
         console.log(res)
         toast.success('succesfully update')
-          window.location.reload()
+          // window.location.reload()
+          setRefetch(!refetch)
         
       })
       .then(error=>{

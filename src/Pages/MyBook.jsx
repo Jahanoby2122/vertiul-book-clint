@@ -63,7 +63,7 @@ useEffect(()=>{
         </div>
 
 
-        <div className='flex justify-center items-center flex-col min-h-screen'>
+        <div className='flex justify-center '>
   {books.length === 0 && (
     <div className='w-full flex flex-col items-center justify-center text-center px-4'>
       <h1 className='text-xl md:text-2xl font-semibold mb-4'>

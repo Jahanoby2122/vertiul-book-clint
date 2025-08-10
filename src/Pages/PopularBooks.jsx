@@ -5,6 +5,7 @@ import PopularBooksCard from './PopularBooksCard';
 
 
 
+
 const fetchData = fetch('https://vertiul-books.vercel.app/books/').then(res=> res.json())
 
 const PopularBooks = () => {
@@ -26,7 +27,7 @@ const PopularBooks = () => {
     return (
         <div>
           <div className='text-center px-20'>
-            <h1 className=' mx-auto font-bold text-4xl md:py-6'>  popular <span className='text-blue-500'>books</span></h1>
+            <h1 data-aos="fade-right" className=' mx-auto font-bold text-4xl md:py-6'>  popular <span className='text-blue-500'>books</span></h1>
 
 
           

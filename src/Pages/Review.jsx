@@ -6,6 +6,10 @@ import ReviewCard from "./ReviewCard";
 import { toast } from "react-toastify";
 
 const Review = ({ _id }) => {
+
+  const [refetch, setRefetch]=useState(true)
+
+
   const { user } = useContext(AuthContext);
   const loadData = useLoaderData();
 
@@ -19,7 +23,7 @@ const Review = ({ _id }) => {
         const bookReviews = data.filter((item) => item.book_id === _id);
         setReviews(bookReviews);
       });
-  }, [_id]);
+  }, [refetch,_id]);
 
   const isAlreadyReviewed = reviews.find(
     (review) => review.book_id === _id && review.email === user?.email
@@ -47,6 +51,7 @@ const Review = ({ _id }) => {
         toast.success("Successfully added");
         setReviews([...reviews, newReviewData]); // Add new review to the UI
         form.reset();
+        setRefetch(!refetch)
       })
       .catch((error) => {
         console.log(error);
@@ -68,7 +73,7 @@ const Review = ({ _id }) => {
         {/* Show Reviews */}
         <div>
           {reviews.map((review) => (
-            <ReviewCard key={review._id} review={review} handleReviewDelete={handleReviewDelete} />
+            <ReviewCard refetch={refetch} setRefetch={setRefetch} key={review._id} review={review} handleReviewDelete={handleReviewDelete} />
           ))}
         </div>
 

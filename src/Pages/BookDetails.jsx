@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useLoaderData } from "react-router"; 
+import { GiVote } from "react-icons/gi";
 import {
   FaBookOpen,
   FaPenNib,
@@ -160,7 +161,8 @@ const BookDetailsPage = () => {
             </div>
             <div className="absolute top-4 right-4 flex space-x-2">
               <button className="bg-white p-2 rounded-full shadow-md text-red-500 hover:bg-gray-100 flex items-center">
-                <FaStar className="mr-1" /> {upvote}
+               {upvote}
+                <GiVote className="ml-1" />
               </button>
 
               <button className="bg-white p-2 rounded-full shadow-md text-gray-700 hover:bg-gray-100">

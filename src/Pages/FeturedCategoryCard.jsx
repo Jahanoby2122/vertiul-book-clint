@@ -5,7 +5,7 @@ const FeaturedCategoryCard = ({ book }) => {
     const { booktitle, cover_photo, total_page,_id } = book;
 
     return (
-        <div className="max-w-xs  overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white cursor-pointer transform hover:-translate-y-1 border border-gray-100">
+        <div  className="max-w-xs  overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 bg-white cursor-pointer transform hover:-translate-y-1 border border-gray-100">
             <div className="relative pb-[50%]"> {/* Aspect ratio container */}
                 <img 
                     className="absolute p-2 top-0 left-0 w-full h-[100px] object-cover"

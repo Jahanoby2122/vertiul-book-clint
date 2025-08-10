@@ -8,6 +8,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
+import Loading from './Loading';
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
@@ -23,7 +24,7 @@ const Profile = () => {
   }, []);
 
   if (!user) return <p>Loading user...</p>;
-  if (!books.length) return <p>Loading books...</p>;
+  if (!books.length) return <Loading></Loading>;
 
   const userBooks = books.filter(book => book.user_email === user.email);
 

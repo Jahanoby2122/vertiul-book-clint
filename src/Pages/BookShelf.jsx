@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLoaderData } from "react-router";
 import BookShelfCard from "./BookShelfCard";
-import img1 from '../assets/shelfBanner.jpg'
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // React Icons
+import img1 from "../assets/shelfBanner.jpg";
 
 const BookShelf = () => {
   const bookShelf2 = useLoaderData();
@@ -9,49 +10,64 @@ const BookShelf = () => {
   const [searchText, setSearchText] = useState("");
   const [filterbook, setFilterBook] = useState("");
 
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const booksPerPage = 8;
+
   useEffect(() => {
     let filtered = bookShelf2;
 
-    // Filter by reading_status
     if (filterbook) {
-      filtered = filtered.filter(book =>
-        book.reading_status.toLowerCase() === filterbook.toLowerCase()
+      filtered = filtered.filter(
+        (book) =>
+          book.reading_status.toLowerCase() === filterbook.toLowerCase()
       );
     }
 
-    // Filter by title search
     if (searchText) {
-      filtered = filtered.filter(book =>
+      filtered = filtered.filter((book) =>
         book.booktitle.toLowerCase().includes(searchText.toLowerCase())
       );
     }
 
     setBookShelf(filtered);
+    setCurrentPage(1);
   }, [searchText, filterbook, bookShelf2]);
+
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = bookShelf.slice(indexOfFirstBook, indexOfLastBook);
+  const totalPages = Math.ceil(bookShelf.length / booksPerPage);
+
+  const goToPage = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4">
-<div className="relative  top-25 bottom-15">
-  <img
-    className="mx-auto rounded-lg shadow-md "
-    src={img1}
-    alt="Bookshelf Illustration"
-  />
-  {/* Text overlay on the image */}
-  <div
-    className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 rounded-lg"
-    style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }} // semi-transparent black bg
-  >
-    <h1 className="text-white text-4xl font-bold mb-2">Bookshelf</h1>
-    <p className="text-white hidden md:block text-lg max-w-xl">
-      Here you can store all your books, view your reading list, and find detailed information about each book in one place.
-    </p>
-  </div>
-</div>
+      {/* Banner */}
+      <div className="relative top-25 bottom-15">
+        <img
+          className="mx-auto rounded-lg shadow-md"
+          src={img1}
+          alt="Bookshelf Illustration"
+        />
+        <div
+          className="absolute inset-0 flex flex-col justify-center items-center text-center px-4 rounded-lg"
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
+        >
+          <h1 className="text-white text-4xl font-bold mb-2">Bookshelf</h1>
+          <p className="text-white hidden md:block text-lg max-w-xl">
+            Here you can store all your books, view your reading list, and find
+            detailed information about each book in one place.
+          </p>
+        </div>
+      </div>
 
-
-<br />
-<br />
+      <br />
+      <br />
 
       {/* Search & Filter */}
       <div className="mt-20 mb-12 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
@@ -93,11 +109,57 @@ const BookShelf = () => {
       </div>
 
       {/* Book Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4  gap-6">
-        {bookShelf.map((book) => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {currentBooks.map((book) => (
           <BookShelfCard key={book._id} book={book} />
         ))}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center mt-8 space-x-2 pb-8">
+          {/* Prev Button */}
+          <button
+            onClick={() => goToPage(currentPage - 1)}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 rounded flex items-center gap-1 ${
+              currentPage === 1
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-200 hover:bg-gray-300"
+            }`}
+          >
+            <FaArrowLeft /> Prev
+          </button>
+
+          {/* Page Numbers */}
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i + 1}
+              onClick={() => goToPage(i + 1)}
+              className={`px-3 py-1 rounded ${
+                currentPage === i + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 hover:bg-gray-300"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          {/* Next Button */}
+          <button
+            onClick={() => goToPage(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 rounded flex items-center gap-1 ${
+              currentPage === totalPages
+                ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                : "bg-gray-200 hover:bg-gray-300"
+            }`}
+          >
+            Next <FaArrowRight />
+          </button>
+        </div>
+      )}
     </div>
   );
 };
