@@ -8,6 +8,7 @@ import { ImBook } from "react-icons/im";
 import logoImg from '../assets/logo.png';
 import { AuthContext } from '../Provider/AuthProvider';
 import { toast } from 'react-toastify';
+import ThemeToggle from '../Pages/ThemeToggle';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ const Navbar = () => {
   const linkis = <>
     <li><NavLink to={'/'} className={({ isActive }) => isActive ? 'text-[#1E75CC] text-xl' : 'text-xl'}><IoIosHome /> Home</NavLink></li>
     <li><NavLink to={'/bookshelf'} className={({ isActive }) => isActive ? 'text-[#1E75CC] text-xl' : 'text-xl'}><IoBookSharp /> Bookshelf</NavLink></li>
+    <li><NavLink to={'/about'} className={({ isActive }) => isActive ? 'text-[#1E75CC] text-xl' : 'text-xl'}><IoBookSharp /> About</NavLink></li>
     {user && <li><NavLink to={'/addbook'} className={({ isActive }) => isActive ? 'text-[#1E75CC] text-xl' : 'text-xl'}><IoMdAddCircle /> Add Book</NavLink></li>}
     {user &&<li><NavLink to={'/mybook'} className={({ isActive }) => isActive ? 'text-[#1E75CC] text-xl' : 'text-xl'}><ImBook /> My Book</NavLink></li>}
     {user && <li><NavLink to={'/profile'} className={({ isActive }) => isActive ? 'text-[#1E75CC] text-xl' : 'text-xl'}><FaRegUserCircle /> Profile</NavLink></li>}
@@ -64,6 +66,7 @@ const Navbar = () => {
 
         {/* Navbar End */}
         <div className="navbar-end space-x-2">
+          <ThemeToggle></ThemeToggle>
           {
             user ? (
               <button onClick={handleLogout} className='btn btn-primary bg-white shadow-xl text-black'>Logout</button>

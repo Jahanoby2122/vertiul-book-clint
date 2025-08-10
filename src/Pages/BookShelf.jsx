@@ -98,7 +98,7 @@ const BookShelf = () => {
           <select
             value={filterbook}
             onChange={(e) => setFilterBook(e.target.value)}
-            className="w-full py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400"
+            className="w-full py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400  text-base-content"
           >
             <option value="">Select all</option>
             <option value="Read">Read</option>

@@ -9,7 +9,7 @@ import Footer from '../Pages/Footer';
 
 const MainLayout = () => {
     return (
-        <div className='bg-[#f2f4f8] flex flex-col min-h-screen'>
+        <div className=' flex flex-col min-h-screen'>
          
             <Navbar></Navbar>
            

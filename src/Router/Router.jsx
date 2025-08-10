@@ -18,6 +18,7 @@ import UpdateReview from "../components/UpdateReview";
 import About from "../components/About";
 import Loading from "../Pages/Loading";
 
+
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -116,7 +117,8 @@ export const router = createBrowserRouter([
       {
         path:'/updatereview/:id',
         element:<UpdateReview></UpdateReview>
-      }
+      },
+      
     ],
   },
 ]);
