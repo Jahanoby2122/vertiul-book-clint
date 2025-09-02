@@ -89,9 +89,9 @@ export const router = createBrowserRouter([
       {
         path: "/bookdetials/:id",
         element: (
-          <PrivateRoute>
+          
             <BookDetails></BookDetails>
-          </PrivateRoute>
+          
         ),
         loader: ({ params }) =>
           fetch(`https://vertiul-books.vercel.app/books/${params.id}`),

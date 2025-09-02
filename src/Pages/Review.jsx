@@ -31,6 +31,11 @@ const Review = ({ _id }) => {
 
   const handleReviewSubmit = (e) => {
     e.preventDefault();
+    if(!user){
+      toast.error("Please login first to add a review")
+      return
+
+    }
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;

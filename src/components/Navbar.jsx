@@ -66,7 +66,7 @@ const Navbar = () => {
 
         {/* Navbar End */}
         <div className="navbar-end space-x-2">
-          <ThemeToggle></ThemeToggle>
+          {/* <ThemeToggle></ThemeToggle> */}
           {
             user ? (
               <button onClick={handleLogout} className='btn btn-primary bg-white shadow-xl text-black'>Logout</button>
