@@ -14,9 +14,17 @@ const BookShelfCard = ({ book }) => {
   const [vote, setVote] = useState(upvote);
 
   const handleVote = () => {
+    if(!user){
+      toast.error("Please login first to upvote")
+      return
+
+    }
     if (user_email === user.email) {
       toast.error("You cannot vote for your own book.");
       return;
+    }
+    else{
+      toast.success("Thanks for your vote!")
     }
 
     axios.patch(`https://vertiul-books.vercel.app/books/${_id}/upvote`)

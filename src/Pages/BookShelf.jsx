@@ -1,48 +1,73 @@
-import React, { useState, useEffect } from "react";
-import { useLoaderData } from "react-router";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLoaderData } from "react-router"; // ✅ সঠিক ইমপোর্ট
 import BookShelfCard from "./BookShelfCard";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // React Icons
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import img1 from "../assets/shelfBanner.jpg";
 
+// ছোট utility: স্ট্রিং normalize (lowercase, extra space, hyphen/underscore ঠিক করা)
+const normalize = (v) =>
+  (v ?? "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ");
+
+const STATUS_OPTIONS = [
+  { value: "", label: "Select all" },
+  { value: "read", label: "Read" },
+  { value: "reading", label: "Reading" },
+  { value: "want to read", label: "Want to Read" },
+];
+
 const BookShelf = () => {
-  const bookShelf2 = useLoaderData();
-  const [bookShelf, setBookShelf] = useState(bookShelf2);
+  // loader data আসতেই পারে undefined/null; তাই guard রাখছি
+  const loaded = useLoaderData();
+  const data = Array.isArray(loaded) ? loaded : [];
+
+  // UI states
   const [searchText, setSearchText] = useState("");
   const [filterbook, setFilterBook] = useState("");
-
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
+
   const booksPerPage = 8;
 
-  useEffect(() => {
-    let filtered = bookShelf2;
+  // সব filtering এখানে — কোনো derived state নয়, তাই stale bug হবে না
+  const filteredBooks = useMemo(() => {
+    let list = data;
 
     if (filterbook) {
-      filtered = filtered.filter(
-        (book) =>
-          book.reading_status.toLowerCase() === filterbook.toLowerCase()
+      list = list.filter(
+        (book) => normalize(book?.reading_status) === filterbook
       );
     }
 
     if (searchText) {
-      filtered = filtered.filter((book) =>
-        book.booktitle.toLowerCase().includes(searchText.toLowerCase())
-      );
+      const q = normalize(searchText);
+      list = list.filter((book) => normalize(book?.booktitle).includes(q));
     }
 
-    setBookShelf(filtered);
-    setCurrentPage(1);
-  }, [searchText, filterbook, bookShelf2]);
+    return list;
+  }, [data, filterbook, searchText]);
 
-  const indexOfLastBook = currentPage * booksPerPage;
+  // filter/search পরিবর্তন হলে প্রথম পেজে ফেরত যাই
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filterbook, searchText]);
+
+  // Pagination হিসাব
+  const totalPages = Math.max(
+    1,
+    Math.ceil(filteredBooks.length / booksPerPage)
+  );
+  const safePage = Math.min(Math.max(currentPage, 1), totalPages);
+  const indexOfLastBook = safePage * booksPerPage;
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentBooks = bookShelf.slice(indexOfFirstBook, indexOfLastBook);
-  const totalPages = Math.ceil(bookShelf.length / booksPerPage);
+  const currentBooks = filteredBooks.slice(indexOfFirstBook, indexOfLastBook);
 
   const goToPage = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
+    const p = Math.min(Math.max(page, 1), totalPages);
+    setCurrentPage(p);
   };
 
   return (
@@ -50,7 +75,7 @@ const BookShelf = () => {
       {/* Banner */}
       <div className="relative top-25 bottom-15">
         <img
-          className="mx-auto rounded-lg shadow-md"
+          className="mx-auto rounded-lg shadow-md w-full object-cover"
           src={img1}
           alt="Bookshelf Illustration"
         />
@@ -98,32 +123,48 @@ const BookShelf = () => {
           <select
             value={filterbook}
             onChange={(e) => setFilterBook(e.target.value)}
-            className="w-full py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400  text-base-content"
+            className="w-full py-2 px-4 rounded-md border border-gray-300 focus:outline-none focus:ring focus:border-blue-400 text-base-content"
           >
-            <option value="">Select all</option>
-            <option value="Read">Read</option>
-            <option value="Reading">Reading</option>
-            <option value="Want to Read">Want to Read</option>
+            {STATUS_OPTIONS.map((opt) => (
+              <option key={opt.value || "all"} value={opt.value}>
+                {opt.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
 
       {/* Book Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {currentBooks.map((book) => (
-          <BookShelfCard key={book._id} book={book} />
+        {currentBooks.map((book, i) => (
+          <BookShelfCard
+            key={
+              book?._id ||
+              book?.id ||
+              book?.bookId ||
+              `${normalize(book?.booktitle)}-${i}`
+            }
+            book={book}
+          />
         ))}
       </div>
+
+      {/* Empty state */}
+      {filteredBooks.length === 0 && (
+        <div className="text-center text-sm text-gray-500 py-8">
+          No books found.
+        </div>
+      )}
 
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center mt-8 space-x-2 pb-8">
           {/* Prev Button */}
           <button
-            onClick={() => goToPage(currentPage - 1)}
-            disabled={currentPage === 1}
+            onClick={() => goToPage(safePage - 1)}
+            disabled={safePage === 1}
             className={`px-3 py-1 rounded flex items-center gap-1 ${
-              currentPage === 1
+              safePage === 1
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-gray-200 hover:bg-gray-300"
             }`}
@@ -137,7 +178,7 @@ const BookShelf = () => {
               key={i + 1}
               onClick={() => goToPage(i + 1)}
               className={`px-3 py-1 rounded ${
-                currentPage === i + 1
+                safePage === i + 1
                   ? "bg-blue-500 text-white"
                   : "bg-gray-200 hover:bg-gray-300"
               }`}
@@ -148,10 +189,10 @@ const BookShelf = () => {
 
           {/* Next Button */}
           <button
-            onClick={() => goToPage(currentPage + 1)}
-            disabled={currentPage === totalPages}
+            onClick={() => goToPage(safePage + 1)}
+            disabled={safePage === totalPages}
             className={`px-3 py-1 rounded flex items-center gap-1 ${
-              currentPage === totalPages
+              safePage === totalPages
                 ? "bg-gray-300 text-gray-500 cursor-not-allowed"
                 : "bg-gray-200 hover:bg-gray-300"
             }`}

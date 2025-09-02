@@ -35,6 +35,11 @@ const BookDetailsPage = () => {
 
   const updateReadingStatus = (e) => {
     e.preventDefault();
+    if(!user){
+      toast.error("Please login first to update reading status")
+      return
+
+    }
 
     if (user_email !== user.email) {
       toast.error("This is not your book");
