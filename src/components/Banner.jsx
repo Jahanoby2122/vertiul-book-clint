@@ -105,19 +105,7 @@ const Banner = () => {
         ))}
       </Swiper>
 
-      {/* Custom Navigation Arrows */}
-      {/* <button
-        ref={navigationPrevRef}
-        className="absolute left-4 top-1/2 z-10 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full transition-all"
-      >
-        <ChevronLeft size={32} />
-      </button> */}
-      {/* <button
-        ref={navigationNextRef}
-        className="absolute right-4 top-1/2 z-10 -translate-y-1/2 bg-white/30 hover:bg-white/50 text-white p-2 rounded-full transition-all"
-      >
-        <ChevronRight size={32} />
-      </button> */}
+     
     </div>
   );
 };
